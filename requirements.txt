@@ -1,0 +1,12 @@
+flask
+gunicorn
+nltk
+sumy
+transformers
+torch
+sentencepiece
+PyPDF2
+reportlab
+scikit-learn
+networkx
+numpy

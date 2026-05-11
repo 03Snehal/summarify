@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>How It Works – Summarify</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="brand">
+    <span class="brand-icon">⚡</span>
+    <span class="brand-name">Summarify</span>
+    <span class="brand-tag">AI</span>
+  </a>
+  <div class="nav-links">
+    <a href="/" class="nav-link">Dashboard</a>
+    <a href="/info" class="nav-link active">How It Works</a>
+    <a href="/applications" class="nav-link">Applications</a>
+  </div>
+  <button class="theme-toggle" id="themeToggle"><span class="theme-icon">🌙</span></button>
+</nav>
+
+<div class="page-hero">
+  <div class="hero-badge">📘 NLP Pipeline</div>
+  <h1 class="hero-title">How <em>Summarify</em> Works</h1>
+  <p class="hero-sub">A deep-dive into the NLP algorithms powering real-time summarization</p>
+</div>
+
+<div class="info-page">
+
+  <!-- Pipeline diagram -->
+  <div class="pipeline">
+    <div class="pipe-step">
+      <div class="pipe-icon" style="background:var(--orange)">📥</div>
+      <div class="pipe-body">
+        <h3>1. Input Collection</h3>
+        <p>Raw text is accepted via direct paste, <code>.txt</code> file upload, or <code>.pdf</code> extraction using PyPDF2. Multiple documents are concatenated before processing.</p>
+      </div>
+      <div class="pipe-arrow">→</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-icon" style="background:var(--teal)">🔬</div>
+      <div class="pipe-body">
+        <h3>2. NLP Preprocessing</h3>
+        <p>The text is <strong>sentence-tokenized</strong> using NLTK's Punkt tokenizer. Stopwords are removed. Each sentence is converted to a <strong>TF-IDF sparse vector</strong> for similarity computation.</p>
+        <div class="code-pill">nltk · sent_tokenize · TF-IDF</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-icon" style="background:var(--yellow)">🕸️</div>
+      <div class="pipe-body">
+        <h3>3. Extractive Summarization (LexRank)</h3>
+        <p>A <strong>sentence similarity graph</strong> is built where edge weights are cosine similarities. <strong>LexRank power-iteration</strong> (similar to PageRank) scores each sentence. The highest-scoring sentences—in original order—form the extractive summary.</p>
+        <div class="code-pill">LexRank · cosine similarity · graph ranking</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-icon" style="background:var(--orange)">🤖</div>
+      <div class="pipe-body">
+        <h3>4. Abstractive Summarization (T5)</h3>
+        <p>The <strong>T5-small transformer</strong> model (Hugging Face) generates a human-readable paraphrase. The model uses <em>seq2seq attention</em> to rewrite content rather than extract it. Input is truncated to ~400 words for optimal performance.</p>
+        <div class="code-pill">transformers · T5-small · pipeline("summarization")</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-icon" style="background:var(--teal)">✨</div>
+      <div class="pipe-body">
+        <h3>5. Output Generation</h3>
+        <p>Five output formats are generated simultaneously: <strong>Paragraph</strong>, <strong>Bullet Points</strong>, <strong>Headline</strong>, <strong>Gist</strong>, and <strong>Action Points</strong>. Important sentences are highlighted in the original text using <code>&lt;mark&gt;</code> tags.</p>
+      </div>
+      <div class="pipe-arrow">→</div>
+    </div>
+    <div class="pipe-step last">
+      <div class="pipe-icon" style="background:var(--yellow)">📊</div>
+      <div class="pipe-body">
+        <h3>6. Analytics</h3>
+        <p>Compression ratio, word counts, estimated reading times, and sentences saved are computed and displayed as analytics cards for transparency and insight.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tech cards -->
+  <h2 class="section-title">Core Technologies</h2>
+  <div class="tech-grid">
+    <div class="tech-card">
+      <div class="tech-icon">🔤</div>
+      <h4>Tokenization</h4>
+      <p>NLTK's Punkt sentence tokenizer splits text at sentence boundaries using an unsupervised algorithm trained on abbreviations and collocations.</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-icon">📐</div>
+      <h4>TF-IDF Vectors</h4>
+      <p>Term Frequency–Inverse Document Frequency weighs words by their importance within and across sentences, enabling meaningful cosine similarity.</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-icon">🕸️</div>
+      <h4>LexRank Algorithm</h4>
+      <p>Graph-based sentence scoring using eigenvector centrality. Sentences central to the document's discourse score highest. Implemented with power-iteration (50 steps, damping 0.85).</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-icon">🧠</div>
+      <h4>T5 Transformer</h4>
+      <p>Google's Text-To-Text Transfer Transformer converts every NLP task to a text generation problem. T5-small has 60M parameters and generates fluent abstractive summaries.</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-icon">📏</div>
+      <h4>Cosine Similarity</h4>
+      <p>Measures angle between TF-IDF vectors. Two sentences with similar vocabulary score high. Used to build the LexRank similarity matrix.</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-icon">⚡</div>
+      <h4>Action Detection</h4>
+      <p>Rule-based keyword matching (should, must, required, need to…) extracts actionable sentences—critical for meeting notes and task-oriented documents.</p>
+    </div>
+  </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

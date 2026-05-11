@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Summarify – Smart AI Text Summarization</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- ── NAVBAR ───────────────────────────────────────────── -->
+<nav class="navbar">
+  <a href="/" class="brand">
+    <span class="brand-icon">⚡</span>
+    <span class="brand-name">Summarify</span>
+    <span class="brand-tag">AI</span>
+  </a>
+  <div class="nav-links">
+    <a href="/" class="nav-link active">Dashboard</a>
+    <a href="/info" class="nav-link">How It Works</a>
+    <a href="/applications" class="nav-link">Applications</a>
+  </div>
+  <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+    <span class="theme-icon">🌙</span>
+  </button>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────── -->
+<header class="hero">
+  <div class="hero-badge">🧠 NLP-Powered Summarization</div>
+  <h1 class="hero-title">Turn long text into
+clear insight<em></em><br/></h1>
+  <p class="hero-sub">Extractive LexRank + Abstractive T5 Transformer · Multiple formats · Instant analytics</p>
+</header>
+
+<!-- ── MAIN DASHBOARD ───────────────────────────────────── -->
+<main class="dashboard">
+
+  <!-- ════ LEFT PANEL ════ -->
+  <section class="panel panel-left">
+
+    <!-- Controls strip -->
+    <div class="controls-strip">
+      <!-- Format tabs -->
+      <div class="control-group">
+        <label class="control-label">Format</label>
+        <div class="tab-row" id="formatTabs">
+          <button class="tab active" data-format="paragraph">¶ Paragraph</button>
+          <button class="tab" data-format="bullets">• Bullets</button>
+          <button class="tab" data-format="headline">★ Headline</button>
+          <button class="tab" data-format="gist">⚡ Gist</button>
+          <button class="tab" data-format="all">⊞ All</button>
+        </div>
+      </div>
+
+      <!-- Method -->
+      <div class="control-group">
+        <label class="control-label">Method</label>
+        <div class="pill-row" id="methodPills">
+          <button class="pill active" data-method="extractive">🔍 Extractive</button>
+          <button class="pill" data-method="abstractive">🤖 Abstractive</button>
+        </div>
+      </div>
+
+      <!-- Length -->
+      <div class="control-group">
+        <label class="control-label">Length</label>
+        <div class="pill-row" id="lengthPills">
+          <button class="pill" data-length="short">Short</button>
+          <button class="pill active" data-length="medium">Medium</button>
+          <button class="pill" data-length="long">Long</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Text Input -->
+    <div class="input-card">
+      <div class="input-header">
+        <span class="input-title">Input Text</span>
+        <div class="input-actions">
+          <button class="icon-btn" id="pasteBtn" title="Paste from clipboard">📋 Paste</button>
+          <button class="icon-btn" id="clearBtn" title="Clear">✕ Clear</button>
+        </div>
+      </div>
+      <textarea
+        id="textInput"
+        class="text-area"
+        placeholder="Paste your article, research paper, legal document, meeting notes or any long text here…
+
+Minimum 30 words required."
+        rows="12"
+      ></textarea>
+      <div class="word-counter"><span id="wordCount">0</span> words</div>
+    </div>
+
+    <!-- File Upload -->
+    <div class="upload-zone" id="uploadZone">
+      <input type="file" id="fileInput" accept=".txt,.pdf" multiple hidden/>
+      <div class="upload-inner" id="uploadInner">
+        <span class="upload-icon">📁</span>
+        <p class="upload-text">Drop <strong>.txt</strong> or <strong>.pdf</strong> files here</p>
+        <p class="upload-hint">or click to browse · multiple files supported</p>
+      </div>
+      <div class="file-list" id="fileList"></div>
+    </div>
+
+    <!-- Summarize button -->
+    <button class="btn-summarize" id="summarizeBtn">
+      <span class="btn-text">✦ Summarize Now</span>
+      <span class="btn-loader hidden" id="btnLoader">
+        <span class="spinner"></span> Analyzing…
+      </span>
+    </button>
+
+  </section>
+
+  <!-- ════ RIGHT PANEL ════ -->
+  <section class="panel panel-right" id="rightPanel">
+
+    <!-- Empty state -->
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">✦</div>
+      <h3>Your summary appears here</h3>
+      <p>Paste text or upload a document on the left, then hit <strong>Summarize Now</strong>.</p>
+    </div>
+
+    <!-- Results (hidden until summarized) -->
+    <div class="results hidden" id="results">
+
+      <!-- Analytics bar -->
+      <div class="analytics-bar" id="analyticsBar"></div>
+
+      <!-- Tab content -->
+      <div class="result-content" id="resultContent"></div>
+
+      <!-- Action buttons -->
+      <div class="result-actions">
+        <button class="action-btn" id="copyBtn">📋 Copy</button>
+        <button class="action-btn" id="dlTxtBtn">⬇ TXT</button>
+        <button class="action-btn" id="dlPdfBtn">⬇ PDF</button>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ── TOAST ─────────────────────────────────────────────── -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ── OVERLAY LOADER ────────────────────────────────────── -->
+<div class="overlay-loader hidden" id="overlayLoader">
+  <div class="loader-card">
+    <div class="big-spinner"></div>
+    <p class="loader-text" id="loaderText">Tokenizing sentences…</p>
+    <p class="loader-sub">NLP pipeline running</p>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

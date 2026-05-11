@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Applications – Summarify</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="brand">
+    <span class="brand-icon">⚡</span>
+    <span class="brand-name">Summarify</span>
+    <span class="brand-tag">AI</span>
+  </a>
+  <div class="nav-links">
+    <a href="/" class="nav-link">Dashboard</a>
+    <a href="/info" class="nav-link">How It Works</a>
+    <a href="/applications" class="nav-link active">Applications</a>
+  </div>
+  <button class="theme-toggle" id="themeToggle"><span class="theme-icon">🌙</span></button>
+</nav>
+
+<div class="page-hero">
+  <div class="hero-badge">🌍 Real-World Use Cases</div>
+  <h1 class="hero-title">Where <em>Summarify</em> Shines</h1>
+  <p class="hero-sub">From research labs to newsrooms — see how NLP summarization transforms industries</p>
+</div>
+
+<div class="apps-page">
+  <div class="apps-grid">
+
+    <div class="app-card" style="--accent:#EC802B">
+      <div class="app-icon">🎓</div>
+      <h3>Academic &amp; Research</h3>
+      <p>Compress lengthy papers, literature reviews, and dissertations into concise summaries without losing key findings and citations.</p>
+      <ul class="use-cases">
+        <li>Research paper digests</li>
+        <li>Literature review synthesis</li>
+        <li>Thesis chapter summaries</li>
+        <li>Grant proposal overviews</li>
+      </ul>
+      <div class="app-tag">Extractive · LexRank</div>
+    </div>
+
+    <div class="app-card" style="--accent:#66BCB4">
+      <div class="app-icon">⚖️</div>
+      <h3>Legal</h3>
+      <p>Summarize contracts, court judgments, and regulatory filings. Extract obligation clauses and action points automatically.</p>
+      <ul class="use-cases">
+        <li>Contract clause extraction</li>
+        <li>Court judgment summaries</li>
+        <li>Regulatory compliance briefs</li>
+        <li>Due diligence reports</li>
+      </ul>
+      <div class="app-tag">Action Points · Extractive</div>
+    </div>
+
+    <div class="app-card" style="--accent:#EDC55B">
+      <div class="app-icon">📰</div>
+      <h3>Media &amp; Journalism</h3>
+      <p>Rapidly digest press releases, news feeds, and wire stories. Generate punchy headlines and gist summaries for editorial teams.</p>
+      <ul class="use-cases">
+        <li>News article summaries</li>
+        <li>Press release digests</li>
+        <li>Story pitch generation</li>
+        <li>Breaking news briefs</li>
+      </ul>
+      <div class="app-tag">Headline · Gist · Abstractive</div>
+    </div>
+
+    <div class="app-card" style="--accent:#E8CCAD">
+      <div class="app-icon">🏥</div>
+      <h3>Healthcare</h3>
+      <p>Condense clinical notes, medical research, and patient reports for faster clinical decision-making and knowledge sharing.</p>
+      <ul class="use-cases">
+        <li>Clinical trial summaries</li>
+        <li>Medical literature digests</li>
+        <li>Patient history briefs</li>
+        <li>Drug approval reports</li>
+      </ul>
+      <div class="app-tag">Paragraph · Extractive</div>
+    </div>
+
+    <div class="app-card" style="--accent:#EC802B">
+      <div class="app-icon">💼</div>
+      <h3>Business</h3>
+      <p>Transform meeting transcripts, strategic reports, and analyst notes into executive summaries and action-item lists.</p>
+      <ul class="use-cases">
+        <li>Meeting transcript digests</li>
+        <li>Earnings report summaries</li>
+        <li>Strategy document briefs</li>
+        <li>Competitor analysis</li>
+      </ul>
+      <div class="app-tag">Action Points · Multi-doc</div>
+    </div>
+
+    <div class="app-card" style="--accent:#66BCB4">
+      <div class="app-icon">📱</div>
+      <h3>Social Media &amp; Marketing</h3>
+      <p>Repurpose long-form blog posts, white papers, and thought-leadership articles into snappy social captions and ad copy.</p>
+      <ul class="use-cases">
+        <li>Blog-to-tweet conversion</li>
+        <li>White paper highlights</li>
+        <li>Newsletter lead generation</li>
+        <li>Ad copy from case studies</li>
+      </ul>
+      <div class="app-tag">Gist · Bullets · Abstractive</div>
+    </div>
+
+  </div>
+
+  <div class="cta-section">
+    <h2>Ready to try it?</h2>
+    <p>Paste any document into the dashboard and get a summary in seconds.</p>
+    <a href="/" class="btn-cta">Open Dashboard →</a>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
